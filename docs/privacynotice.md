@@ -107,7 +107,7 @@ Hierbei verarbeiten wir, bzw. unser Hostinganbieter Bestandsdaten, Kontaktdaten,
 Interessenten und Besuchern dieses Appangebotes auf Grundlage unserer berechtigten Interessen an einer effizienten und sicheren Zurverfügungstellung dieses Appangebotes 
 gem. Art. 6 Abs. 1 lit. f DSGVO i.V.m. Art. 28 DSGVO (Abschluss Auftragsverarbeitungsvertrag).</span></p><p></p>
 
-<p>April 2019</p>
+<p>März 2021</p>
 <p>Diese Erklärung wurde vom Anbieter dieser Anwendung angepasst.</p>
 <a href="https://datenschutz-generator.de" class="dsg1-6" rel="nofollow" target="_blank">Erstellt mit Datenschutz-Generator.de von RA Dr. Thomas Schwenke</a>
 </div>
