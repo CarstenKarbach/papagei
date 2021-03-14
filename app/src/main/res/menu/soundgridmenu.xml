@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_item_list"
+        android:title="@string/list"
+        android:icon="@android:drawable/ic_menu_agenda"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/menu_item_search"
+        android:title="@string/search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/menu_item_sound_random"
+        android:title="@string/random"
+        android:icon="@android:drawable/ic_media_play"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/menu_item_sound_add"
+            android:title="@string/add"
+            android:icon="@android:drawable/ic_menu_add"
+            app:showAsAction="always"
+            />
+    <item android:id="@+id/menu_item_settings"
+        android:title="@string/settings"
+        android:icon="@android:drawable/ic_menu_edit"
+        app:showAsAction="always"
+        />
+</menu>

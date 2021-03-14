@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="@string/reset_sounds"
+        android:key="@string/reset_sounds_key"
+        android:summary="@string/reset_sounds_long"
+        android:icon="@android:drawable/ic_menu_revert"
+        />
+
+</androidx.preference.PreferenceScreen>

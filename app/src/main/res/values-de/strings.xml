@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hömma</string>
+    <string name="select_icon">Icon wählen</string>
+    <string name="visible_tags">Sichtbare Tags</string>
+    <string name="choose_vis_text">Sichtbare Tags auswählen.</string>
+    <string name="select_audio">Audio Datei auswählen</string>
+    <string name="install_file_manager">Bitte installieren Sie einen File Manager.</string>
+    <string name="cannot_read">Die Datei kann nicht gelesen werden</string>
+    <string name="success_selected">Datei wurde erfolgreich ausgewählt</string>
+    <string name="file_not_found">Datei konnte nicht gefunden werden</string>
+    <string name="deleted_sound">Sound gelöscht</string>
+    <string name="need_external">Zugriff auf externen Speicher wird benötigt.</string>
+    <string name="please_grant">Zugriff gewähren</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="filter">suchen</string>
+    <string name="ok_short">ok</string>
+    <string-array name="icon_colors">
+        <item>rot</item>
+        <item>orange</item>
+        <item>gelb</item>
+        <item>grün</item>
+        <item>blau</item>
+        <item>magenta</item>
+        <item>schwarz</item>
+    </string-array>
+    <string name="cancel_short">abbrechen</string>
+    <string name="id">ID</string>
+    <string name="dash">-</string>
+    <string name="info">Info</string>
+    <string name="icon">Icon</string>
+    <string name="xf2b9"></string>
+    <string name="mp3">mp3</string>
+    <string name="please_select">- bitte auswählen -</string>
+    <string name="your_tag">dein Tag</string>
+    <string name="add">hinzufügen</string>
+    <string name="save">speichern</string>
+    <string name="check">check</string>
+    <string name="share">teilen</string>
+    <string name="delete">löschen</string>
+    <string name="edit">editieren</string>
+    <string name="list">Liste</string>
+    <string name="search">suchen</string>
+    <string name="random">zufällig</string>
+    <string name="settings">Einstellungen</string>
+    <string name="grid">abspielen</string>
+    <string name="sound_msg">Sound \'</string>
+    <string name="saved_success">\' erfolgreich gespeichert</string>
+    <string name="please_select_icon">Bitte wählen Sie ein Icon</string>
+    <string name="new_sound">Neuer Sound \'</string>
+    <string name="select_file">Bitte wählen Sie zuerst eine Datei aus</string>
+    <string name="permission_micro">Zugriff auf Mikrofon benötigt</string>
+    <string name="dots">...</string>
+    <string name="tag_not_empty">Tag darf nicht leer sein.</string>
+    <string name="tag_available">Tag schon vorhanden.</string>
+    <string name="audio_store">Audioaufnahme gespeichert.</string>
+    <string name="audio_record">Audioaufnahme</string>
+    <string name="add_desc">Bitte fügen Sie eine Beschreibung ein</string>
+    <string name="reset_sounds">Sounds zurücksetzen</string>
+    <string name="reset_sounds_long">Alle Sound auf den Startzustand zurücksetzen wie zum Zeitpunkt der App-Installation.</string>
+    <string name="reset_sounds_key">reset_sounds</string>
+    <string name="reset_successful">Erfolgreich zurückgesetzt</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="sure_question">Möchten Sie wirklich alle Sounds zurücksetzen?</string>
+    <string name="yes">JA</string>
+    <string name="no">NEIN</string>
+</resources>
