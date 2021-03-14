@@ -1,3 +1,3 @@
-# papagei
+# Hömma
 
-Eine Android App zum Abspielen und Aufnehmen von Sounds 
+Eine Android App zum Abspielen und Aufnehmen von Sounds
