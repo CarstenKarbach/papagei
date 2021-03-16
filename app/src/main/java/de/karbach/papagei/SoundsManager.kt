@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import java.io.*
 import java.lang.RuntimeException
 import android.content.res.AssetManager
+import de.karbach.papagei.utils.StringFileUtils
 import kotlin.random.Random
 
 
@@ -23,6 +24,8 @@ class SoundsManager(val context: Context) {
 
     companion object{
         private var currentList:SoundList?=null
+
+        val deffilename = "soundlist.json"
 
         fun getCurrentList(context: Context): SoundList{
             if(SoundsManager.currentList != null){
@@ -85,36 +88,6 @@ class SoundsManager(val context: Context) {
             soundList.addSound(sound)
         }
         return soundList
-    }
-
-    private fun writeToFile(data: String, filename: String) {
-        try {
-            val outputStreamWriter =
-                OutputStreamWriter(context.openFileOutput(filename, MODE_PRIVATE))
-            outputStreamWriter.write(data)
-            outputStreamWriter.close()
-        } catch (e: IOException) {
-            Log.e("Exception", "File write failed: " + e.toString())
-        }
-    }
-
-    private fun readFromFile(filename: String): String {
-        var ret = ""
-        try {
-            val inputStream = context.openFileInput(filename)
-
-            if (inputStream != null) {
-                val inputStreamReader = InputStreamReader(inputStream)
-                val bufferedReader = BufferedReader(inputStreamReader)
-                val allText = bufferedReader.use(BufferedReader::readText)
-                ret = allText
-            }
-        } catch (e: FileNotFoundException) {
-            Log.e("readFromFile", "File not found: " + e.toString())
-        } catch (e: IOException) {
-            Log.e("readFromFile", "Can not read file: $e")
-        }
-        return ret
     }
 
     public fun readAudioFileToBase64(uri: Uri): String?{
@@ -185,10 +158,8 @@ class SoundsManager(val context: Context) {
         }
     }
 
-    val deffilename = "soundlist.json"
-
-    fun loadList(): SoundList?{
-        val jsonString = readFromFile(deffilename)
+    fun loadList(filename: String = deffilename): SoundList?{
+        val jsonString = StringFileUtils.readFromFile(filename, context)
         if(jsonString == ""){
             return null
         }
@@ -196,10 +167,10 @@ class SoundsManager(val context: Context) {
         return loadedJSON
     }
 
-    fun saveSoundList(soundlist:SoundList){
+    fun saveSoundList(soundlist:SoundList, filename: String = deffilename){
         val storeJSON = Gson().toJson(soundlist)
         Log.d("storejson", storeJSON)
-        writeToFile(storeJSON, deffilename)
+        StringFileUtils.writeToFile(storeJSON, filename, context)
     }
 
     fun shareSound(sound:Sound){

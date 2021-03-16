@@ -2,6 +2,7 @@ package de.karbach.papagei
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.MultiSelectListPreference
@@ -60,6 +61,15 @@ class Settings : PreferenceFragmentCompat() {
                 val alert = builder.create()
                 alert.show()
             }
+
+            return@setOnPreferenceClickListener true
+        }
+
+        val manageBoardsButton = findPreference(getString(R.string.manage_boards_key))
+        manageBoardsButton.setOnPreferenceClickListener {
+
+            val intent = Intent(context, BoardListActivity::class.java)
+            startActivity(intent)
 
             return@setOnPreferenceClickListener true
         }
