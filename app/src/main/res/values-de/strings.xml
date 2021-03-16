@@ -65,7 +65,9 @@
     <string name="sure_question">Möchten Sie wirklich alle Sounds zurücksetzen?</string>
     <string name="yes">JA</string>
     <string name="no">NEIN</string>
-    <string name="manage_boards">Manage boards</string>
+    <string name="manage_boards">Boards verwalten</string>
     <string name="manage_boards_key">manage_boards_key</string>
-    <string name="manage_boards_summary">Create boards, select them, exports</string>
+    <string name="manage_boards_summary">Boards erstellen, auswählen, exportieren</string>
+    <string name="select">auswählen</string>
+    <string name="exportieren">exportieren</string>
 </resources>

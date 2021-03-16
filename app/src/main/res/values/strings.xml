@@ -1067,7 +1067,9 @@
     <string name="sure_question">Do you really want to reset all sounds?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-    <string name="manage_boards">Boards verwalten</string>
     <string name="manage_boards_key">manage_boards_key</string>
-    <string name="manage_boards_summary">Boards erstellen, auswählen, exportieren</string>
+    <string name="manage_boards_summary">Create boards, select them, exports</string>
+    <string name="select">select</string>
+    <string name="exportieren">export</string>
+    <string name="manage_boards">Manage boards</string>
 </resources>

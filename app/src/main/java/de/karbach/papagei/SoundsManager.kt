@@ -35,6 +35,7 @@ class SoundsManager(val context: Context) {
             var res = man.loadList()
             if(res == null){
                 res = man.getTestSounds()
+                saveAsCurrentList(context, res)
             }
             SoundsManager.currentList = res
             return res as SoundList
@@ -88,30 +89,6 @@ class SoundsManager(val context: Context) {
             soundList.addSound(sound)
         }
         return soundList
-    }
-
-    public fun readAudioFileToBase64(uri: Uri): String?{
-        Log.d("Base64-prestart", uri.toString())
-        val inputStream = context.getContentResolver().openInputStream(uri)
-        if(inputStream == null){
-            return null
-        }
-        val buffer = ByteArrayOutputStream()
-        val data = ByteArray(16384)
-        var nRead: Int = inputStream.read(data, 0, data.size)
-
-        while (nRead != -1) {
-            buffer.write(data, 0, nRead)
-            nRead = inputStream.read(data, 0, data.size)
-        }
-
-        val ba= buffer.toByteArray()
-        val res = Base64.encodeToString(ba, Base64.DEFAULT)
-
-        Log.d("Base64-uri", uri.toString())
-        Log.d("Base64-strl", res.substring(0, 10)+"..."+res.length.toString())
-
-        return res
     }
 
     public fun copyFile(sourceuri: Uri, filename: String, useOutPutStream: FileOutputStream? = null):Boolean {
