@@ -14,6 +14,7 @@ class BoardListFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.title = resources.getString(R.string.manage_boards)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,6 +32,22 @@ class BoardListFragment: Fragment() {
                 recycler.adapter = BoardsAdapter(BoardsManager.getCurrentBoards(it))
                 recycler.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.boardslist_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_item_add_board -> {
+                val intent = Intent(context, BoardActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 

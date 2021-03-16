@@ -41,6 +41,11 @@ class BoardsManager (val context: Context) {
                 man.save(it)
             }
         }
+
+        fun getActiveBoard(context: Context): Board{
+            return getCurrentBoards(context).filter{b -> b.active}.first()
+        }
+
     }
 
     fun resetToDefaultBoard(){
@@ -49,7 +54,7 @@ class BoardsManager (val context: Context) {
     }
 
     fun getDefaultBoards(): ArrayList<Board> {
-        return arrayListOf(Board(1, "Hömma", SoundsManager.deffilename, true))
+        return arrayListOf(Board(1, "Hömma", "default_sounds.json", true))
     }
 
     val deffilename = "boardlist.json"
@@ -134,4 +139,9 @@ class BoardsManager (val context: Context) {
         startIntentForFileShare(board)
     }
 
+
+    fun getBoardByName(name: String): Board?{
+        val checkName = name.toLowerCase().trim()
+        return getCurrentBoards(context).filter{b -> b.name == checkName}.firstOrNull()
+    }
 }

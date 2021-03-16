@@ -25,12 +25,11 @@ class SoundsManager(val context: Context) {
     companion object{
         private var currentList:SoundList?=null
 
-        val deffilename = "soundlist.json"
+        fun getCurrentSoundListFilename(context: Context): String{
+            return BoardsManager.getActiveBoard(context).filename
+        }
 
-        fun getCurrentList(context: Context): SoundList{
-            if(SoundsManager.currentList != null){
-                return SoundsManager.currentList as SoundList
-            }
+        fun reloadCurrentList(context: Context){
             val man = SoundsManager(context)
             var res = man.loadList()
             if(res == null){
@@ -38,7 +37,14 @@ class SoundsManager(val context: Context) {
                 saveAsCurrentList(context, res)
             }
             SoundsManager.currentList = res
-            return res as SoundList
+        }
+
+        fun getCurrentList(context: Context): SoundList{
+            if(SoundsManager.currentList != null){
+                return SoundsManager.currentList as SoundList
+            }
+            reloadCurrentList(context)
+            return SoundsManager.currentList as SoundList
         }
 
         fun saveAsCurrentList(context: Context, soundlist: SoundList? = SoundsManager.currentList){
@@ -135,8 +141,9 @@ class SoundsManager(val context: Context) {
         }
     }
 
-    fun loadList(filename: String = deffilename): SoundList?{
-        val jsonString = StringFileUtils.readFromFile(filename, context)
+    fun loadList(filename: String? = null): SoundList?{
+        val loadFile = filename ?: getCurrentSoundListFilename(context)
+        val jsonString = StringFileUtils.readFromFile(loadFile, context)
         if(jsonString == ""){
             return null
         }
@@ -144,10 +151,11 @@ class SoundsManager(val context: Context) {
         return loadedJSON
     }
 
-    fun saveSoundList(soundlist:SoundList, filename: String = deffilename){
+    fun saveSoundList(soundlist:SoundList, filename: String? = null){
         val storeJSON = Gson().toJson(soundlist)
         Log.d("storejson", storeJSON)
-        StringFileUtils.writeToFile(storeJSON, filename, context)
+        val storeFile = filename ?: getCurrentSoundListFilename(context)
+        StringFileUtils.writeToFile(storeJSON, storeFile, context)
     }
 
     fun shareSound(sound:Sound){

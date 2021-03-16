@@ -23,6 +23,8 @@
         </activity>
         <activity android:name=".BoardListActivity">
         </activity>
+        <activity android:name=".BoardActivity">
+        </activity>
         <activity android:name=".SettingsActivity">
         </activity>
         <activity android:name=".IconSelectionActivity" android:windowSoftInputMode="stateHidden"></activity>
