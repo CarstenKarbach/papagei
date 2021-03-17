@@ -1,8 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_item_grid"
+        android:title="@string/grid"
+        android:icon="@android:drawable/ic_menu_slideshow"
+        app:showAsAction="always"
+        />
     <item android:id="@+id/menu_item_add_board"
         android:title="@string/add"
         android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/menu_item_settings"
+        android:title="@string/settings"
+        android:icon="@android:drawable/ic_menu_edit"
         app:showAsAction="always"
         />
 </menu>

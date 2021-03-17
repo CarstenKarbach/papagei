@@ -56,6 +56,16 @@ class BoardListFragment: Fragment() {
                 startActivity(intent)
                 return true
             }
+            R.id.menu_item_grid -> {
+                val intent = Intent(context, SoundGridActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.menu_item_settings -> {
+                val intent = Intent(context, SettingsActivity::class.java)
+                startActivity(intent)
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
