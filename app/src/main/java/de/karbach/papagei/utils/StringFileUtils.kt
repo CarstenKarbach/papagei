@@ -65,12 +65,19 @@ object StringFileUtils {
         return res
     }
 
-    fun writeBase64ToFile(context: Context, filename: String, base64Content: String){
+    fun writeBase64ToFile(context: Context, filename: String, base64Content: String):Uri{
         val outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE)
         val bos = BufferedOutputStream(outputStream)
         val buf = ByteArray(1024)
         val bas = Base64.decode(base64Content, Base64.DEFAULT)
         bos.write(bas)
         bos.close()
+        return getPrivateUriForFilename(filename, context)
+    }
+
+    fun getPrivateUriForFilename(filename: String, context: Context):Uri{
+        val internalFilesUri = Uri.fromFile(context.filesDir)
+        val fileUri = Uri.withAppendedPath(internalFilesUri, filename)
+        return fileUri
     }
 }

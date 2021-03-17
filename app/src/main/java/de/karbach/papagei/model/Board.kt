@@ -3,7 +3,7 @@ package de.karbach.papagei.model
 import android.content.Context
 import de.karbach.papagei.SoundsManager
 
-class Board(val id: Int, var name: String, val filename: String, var active: Boolean = false, val isDefault: Boolean = false) {
+class Board(var id: Int, var name: String, var filename: String, var active: Boolean = false, val isDefault: Boolean = false) {
 
     fun soundsCount(context: Context): Int{
         if(active){

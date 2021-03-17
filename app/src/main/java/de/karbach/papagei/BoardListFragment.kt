@@ -23,6 +23,15 @@ class BoardListFragment: Fragment() {
         return result
     }
 
+    fun notifyDataChanged(){
+        view?.let {
+            val recycler = it.findViewById<RecyclerView>(R.id.boards)
+            recycler?.adapter?.let{
+                it.notifyDataSetChanged()
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
 

@@ -1,21 +1,22 @@
 package de.karbach.papagei
 
+import android.R
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import com.google.gson.Gson
 import de.karbach.papagei.model.Board
 import de.karbach.papagei.model.BoardExport
-import de.karbach.papagei.model.Sound
 import de.karbach.papagei.model.SoundList
 import de.karbach.papagei.utils.StringFileUtils
 import java.io.*
-import java.lang.RuntimeException
 
-class BoardsManager (val context: Context) {
+
+class BoardsManager(val context: Context) {
 
     companion object{
         private var currentList: ArrayList<Board>?=null
@@ -43,7 +44,7 @@ class BoardsManager (val context: Context) {
         }
 
         fun getActiveBoard(context: Context): Board{
-            return getCurrentBoards(context).filter{b -> b.active}.first()
+            return getCurrentBoards(context).filter{ b -> b.active}.first()
         }
 
     }
@@ -86,7 +87,7 @@ class BoardsManager (val context: Context) {
     }
 
     fun getNextBoardID(): Int{
-        return (getCurrentBoards(context).map{b -> b.id}.max() ?: 0)+1
+        return (getCurrentBoards(context).map{ b -> b.id}.max() ?: 0)+1
     }
 
     fun addBoard(board: Board){
@@ -132,7 +133,7 @@ class BoardsManager (val context: Context) {
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         intent.type = "application/json"
         val uri =
-                FileProvider.getUriForFile(context, context.packageName+".fileprovider", file)
+                FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         context.startActivity(intent)
     }
@@ -146,14 +147,38 @@ class BoardsManager (val context: Context) {
 
     fun getBoardByName(name: String): Board?{
         val checkName = name.toLowerCase().trim()
-        return getCurrentBoards(context).filter{b -> b.name == checkName}.firstOrNull()
+        return getCurrentBoards(context).filter{ b -> b.name == checkName}.firstOrNull()
     }
 
     fun getBoardByFileName(filename: String): Board?{
-        return getCurrentBoards(context).filter{b -> b.filename == filename}.firstOrNull()
+        return getCurrentBoards(context).filter{ b -> b.filename == filename}.firstOrNull()
     }
 
     fun getBoardByID(id: Int): Board?{
-        return getCurrentBoards(context).filter{b -> b.id == id}.firstOrNull()
+        return getCurrentBoards(context).filter{ b -> b.id == id}.firstOrNull()
+    }
+
+    fun importBoard(uri: Uri, boardName: String){
+        val inputStream = InputStreamReader(context.getContentResolver().openInputStream(uri))
+        val boardExport = Gson().fromJson(inputStream, BoardExport::class.java)
+        if(boardExport != null){
+                val board = boardExport.board
+                board.name = boardName
+                val soundslist = boardExport.soundlist
+                board.id = getNextBoardID()
+                board.filename = "imported_board_"+board.id+".json"
+                addBoard(board)
+                activateBoard(board)
+                for((id, fileBase64Str) in boardExport.soundIdToBase64File){
+                    val sound = soundslist.getById(id)
+                    sound?.let {
+                        val soundFileName = "sound_" + board.id + "_" + id + ".audio"
+                        val uri = StringFileUtils.writeBase64ToFile(context, soundFileName, fileBase64Str)
+                        sound.actualResourceURI = uri.toString()
+                        sound.origResourceURI = uri.toString()
+                    }
+                }
+                SoundsManager.saveAsCurrentList(context, soundslist)
+        }
     }
 }
