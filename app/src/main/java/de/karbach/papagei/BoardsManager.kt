@@ -54,7 +54,7 @@ class BoardsManager (val context: Context) {
     }
 
     fun getDefaultBoards(): ArrayList<Board> {
-        return arrayListOf(Board(1, "Hömma", "default_sounds.json", true))
+        return arrayListOf(Board(1, "Hömma", "default_sounds.json", true, true))
     }
 
     val deffilename = "boardlist.json"
@@ -64,8 +64,10 @@ class BoardsManager (val context: Context) {
         if(jsonString == ""){
             return null
         }
-        val loadedJSON = Gson().fromJson(jsonString, ArrayList::class.java)
-        return loadedJSON as ArrayList<Board>
+        val loadedJSON = Gson().fromJson(jsonString, Array<Board>::class.java)
+        val result = ArrayList<Board>()
+        result.addAll(loadedJSON)
+        return result
     }
 
     fun save(boardlist: ArrayList<Board>){
@@ -80,6 +82,7 @@ class BoardsManager (val context: Context) {
         }
         board.active = true
         saveAsCurrentBoards(context)
+        SoundsManager.reloadCurrentList(context)
     }
 
     fun getNextBoardID(): Int{
@@ -93,6 +96,7 @@ class BoardsManager (val context: Context) {
 
     fun deleteBoard(board: Board){
         getCurrentBoards(context).remove(board)
+        context.deleteFile(board.filename)
         saveAsCurrentBoards(context)
     }
 
@@ -143,5 +147,9 @@ class BoardsManager (val context: Context) {
     fun getBoardByName(name: String): Board?{
         val checkName = name.toLowerCase().trim()
         return getCurrentBoards(context).filter{b -> b.name == checkName}.firstOrNull()
+    }
+
+    fun getBoardByFileName(filename: String): Board?{
+        return getCurrentBoards(context).filter{b -> b.filename == filename}.firstOrNull()
     }
 }

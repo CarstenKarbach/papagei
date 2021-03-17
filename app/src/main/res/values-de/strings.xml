@@ -72,4 +72,5 @@
     <string name="exportieren">exportieren</string>
     <string name="name">Name</string>
     <string name="board">Board</string>
+    <string name="active_board_cannot_be_deleted">Das aktive Board kann nicht gelöscht werden.</string>
 </resources>

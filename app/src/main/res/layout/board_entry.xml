@@ -19,24 +19,24 @@
         android:gravity="center"
         android:id="@+id/board_name"/>
     <TextView
-        app:layout_constraintLeft_toRightOf="@id/board_name"
+        app:layout_constraintRight_toLeftOf="@id/active_icon"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="Sounds"
         android:textSize="16dp"
         android:gravity="center"
         android:id="@+id/sounds_label"/>
     <TextView
-        app:layout_constraintLeft_toRightOf="@id/board_name"
+        app:layout_constraintLeft_toLeftOf="@id/sounds_label"
+        app:layout_constraintRight_toRightOf="@id/sounds_label"
         app:layout_constraintTop_toBottomOf="@id/sounds_label"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="17"
         android:textSize="16dp"
-        android:layout_marginLeft="16dp"
         android:gravity="center"
         android:id="@+id/sounds_count"/>
     <TextView

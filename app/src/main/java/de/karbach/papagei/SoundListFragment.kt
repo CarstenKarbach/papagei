@@ -31,6 +31,7 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.iterator
 import androidx.core.view.size
+import de.karbach.papagei.utils.titleToActiveBoardName
 import java.io.File
 import java.lang.Exception
 import java.util.*
@@ -152,6 +153,8 @@ class SoundListFragment: ListFragment() {
 
         updateDisplayedItems()
         registerForContextMenu(listView)
+
+        titleToActiveBoardName()
     }
 
     override fun onPause() {

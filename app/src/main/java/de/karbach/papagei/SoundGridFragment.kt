@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import de.karbach.papagei.model.Sound
 import de.karbach.papagei.model.SoundList
+import de.karbach.papagei.utils.titleToActiveBoardName
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -62,6 +63,8 @@ class SoundGridFragment: Fragment() {
         updateDisplaySounds()
         connectSoundListAdapter()
         soundGridAdapter?.notifyDataSetChanged()
+
+        titleToActiveBoardName()
     }
 
     fun deleteSoundFromList(sound: Sound){

@@ -7,13 +7,18 @@ import android.opengl.Visibility
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.karbach.papagei.model.Board
 import de.karbach.papagei.model.Sound
 
-class BoardsAdapter(val boards: ArrayList<Board>): RecyclerView.Adapter<BoardsAdapter.ViewHolder>() {
+class BoardsAdapter(val boards: ArrayList<Board>, val callback: Callback? = null): RecyclerView.Adapter<BoardsAdapter.ViewHolder>() {
+
+    interface Callback{
+        fun onDataChanged()
+    }
 
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val nameView = itemView.findViewById<TextView>(R.id.board_name)
@@ -65,10 +70,16 @@ class BoardsAdapter(val boards: ArrayList<Board>): RecyclerView.Adapter<BoardsAd
                         when (it.itemId) {
                                 R.id.menu_item_activate -> {
                                     BoardsManager(holder.frame.context).activateBoard(board)
+                                    callback?.onDataChanged()
                                     return@setOnMenuItemClickListener true
                                 }
                                 R.id.menu_item_delete -> {
+                                    if(board.active){
+                                        Toast.makeText(holder.frame.context, holder.frame.context.getString(R.string.active_board_cannot_be_deleted), Toast.LENGTH_SHORT).show()
+                                        return@setOnMenuItemClickListener true
+                                    }
                                     BoardsManager(holder.frame.context).deleteBoard(board)
+                                    callback?.onDataChanged()
                                     return@setOnMenuItemClickListener true
                                 }
                                 R.id.menu_item_export -> {

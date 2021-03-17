@@ -26,11 +26,11 @@ class BoardFragment: Fragment() {
             activity?.let {
                 val bm = BoardsManager(it)
                 val name = bname.text.toString()
-                if(name == "" || bm.getBoardByName(name) != null){
+                val filename = bname.text.toString().toLowerCase().trim()+"_sounds.json"
+                if(name == "" || bm.getBoardByName(name) != null || bm.getBoardByFileName(filename) != null){
                     Toast.makeText(it, "Der Name ist ungültig oder schon in Benutzung.", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                val filename = bname.text.toString().toLowerCase().trim()+"_sounds.json"
                 val board = Board(bm.getNextBoardID(), bname.text.toString(), filename, false)
                 bm.addBoard(board)
                 Toast.makeText(it, "Neues Board wurde erfolgreich erstellt.", Toast.LENGTH_SHORT).show()

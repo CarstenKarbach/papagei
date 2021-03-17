@@ -33,7 +33,7 @@ class SoundsManager(val context: Context) {
             val man = SoundsManager(context)
             var res = man.loadList()
             if(res == null){
-                res = man.getTestSounds()
+                res = man.getResetSoundsList()
                 saveAsCurrentList(context, res)
             }
             SoundsManager.currentList = res
@@ -70,9 +70,19 @@ class SoundsManager(val context: Context) {
         return testSounds
     }*/
 
-    fun resetToTestSounds(subfolder: String = def_sound_folder){
-        val soundlist = getTestSounds(subfolder)
+    fun resetToTestSounds(){
+        val soundlist = getResetSoundsList()
         saveAsCurrentList(context, soundlist)
+    }
+
+    fun getResetSoundsList():SoundList{
+        val board = BoardsManager.getActiveBoard(context)
+        if(board.isDefault) {
+            return getTestSounds()
+        }
+        else{
+            return SoundList()
+        }
     }
 
     fun getTestSounds(subfolder: String = def_sound_folder):SoundList{

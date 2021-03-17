@@ -29,7 +29,12 @@ class BoardListFragment: Fragment() {
             val recycler = it.findViewById<RecyclerView>(R.id.boards)
             registerForContextMenu(recycler)
             activity?.let {
-                recycler.adapter = BoardsAdapter(BoardsManager.getCurrentBoards(it))
+                val dataChangeCallback = object: BoardsAdapter.Callback{
+                    override fun onDataChanged() {
+                        recycler.adapter?.notifyDataSetChanged()
+                    }
+                }
+                recycler.adapter = BoardsAdapter(BoardsManager.getCurrentBoards(it), dataChangeCallback)
                 recycler.layoutManager = LinearLayoutManager(it, LinearLayoutManager.VERTICAL, false)
             }
         }
