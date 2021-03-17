@@ -169,12 +169,15 @@ class SoundFragment: Fragment() {
     }
 
     fun getSoundsFilename(newfile: Boolean):String{
-        if(sound != null && !newfile) {
-            return "sound" + sound?.id + ".audio"
+        activity?.let {
+            val board = BoardsManager.getActiveBoard(it)
+            if (sound != null && !newfile) {
+                return "soundrecord_" + board.id + "_" + sound?.id + ".audio"
+            } else {
+                return "soundrecord_" + board.id + "_" + (SoundsManager.getCurrentList(activity as Context).getMaxID() + 1) + ".audio"
+            }
         }
-        else{
-            return "sound" + (SoundsManager.getCurrentList(activity as Context).getMaxID() + 1) + ".audio"
-        }
+        return "soundrecord_unknown.audio"
     }
 
     fun askForPermission(permission: String, msg: String, requestCode: Int): Boolean{
@@ -515,6 +518,7 @@ class SoundFragment: Fragment() {
 
         recorder.stop()
         origuri = getPrivateFileForFilename(getSoundsFilename(true)).toUri()
+        Log.d("stoprecord", origuri.toString())
         audioRecord = true
         storeAudioFileFromOrigUri()
 

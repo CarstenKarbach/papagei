@@ -41,8 +41,14 @@ class BoardListActivity: SingleFragmentActivity() {
                 Toast.makeText(this@BoardListActivity, "Der Name ist ungültig oder schon in Benutzung.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            BoardsManager(this).importBoard(uri, name)
+            try {
+                BoardsManager(this).importBoard(uri, name)
+            }
+            catch(e: Exception){
+                Toast.makeText(this, "Beim Import ist ein Fehler aufgetreten.", Toast.LENGTH_SHORT).show()
+                dialogBuilder.dismiss()
+                return@setOnClickListener
+            }
             val fm: FragmentManager = this.supportFragmentManager;
             var f:Fragment? = fm.findFragmentById(R.id.fragment_container)
             f?.let{
@@ -62,8 +68,7 @@ class BoardListActivity: SingleFragmentActivity() {
         super.onCreate(savedInstanceState)
 
         if(intent?.action == Intent.ACTION_SEND){
-            if("application/json" == intent.type){
-                    Toast.makeText(this, "HELLO HELLO", Toast.LENGTH_SHORT).show()
+            if("application/json" == intent.type || "application/octet-stream" == intent.type){
                 (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
                     createDialog(it)
                 }

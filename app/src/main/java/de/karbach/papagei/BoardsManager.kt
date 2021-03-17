@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
+import androidx.core.net.toFile
 import com.google.gson.Gson
 import de.karbach.papagei.model.Board
 import de.karbach.papagei.model.BoardExport
@@ -96,6 +97,16 @@ class BoardsManager(val context: Context) {
     }
 
     fun deleteBoard(board: Board){
+        val soundsList = SoundsManager(context).loadList(board.filename)
+        soundsList?.let {
+            for (s in it.sounds) {
+                if(s.actualResourceURI.startsWith("file:/")){
+                    val uri = Uri.parse(s.actualResourceURI)
+                    val file = uri.toFile()
+                    val res = file.delete()
+                }
+            }
+        }
         getCurrentBoards(context).remove(board)
         context.deleteFile(board.filename)
         saveAsCurrentBoards(context)
@@ -162,23 +173,23 @@ class BoardsManager(val context: Context) {
         val inputStream = InputStreamReader(context.getContentResolver().openInputStream(uri))
         val boardExport = Gson().fromJson(inputStream, BoardExport::class.java)
         if(boardExport != null){
-                val board = boardExport.board
-                board.name = boardName
-                val soundslist = boardExport.soundlist
-                board.id = getNextBoardID()
-                board.filename = "imported_board_"+board.id+".json"
-                addBoard(board)
-                activateBoard(board)
-                for((id, fileBase64Str) in boardExport.soundIdToBase64File){
-                    val sound = soundslist.getById(id)
-                    sound?.let {
-                        val soundFileName = "sound_" + board.id + "_" + id + ".audio"
-                        val uri = StringFileUtils.writeBase64ToFile(context, soundFileName, fileBase64Str)
-                        sound.actualResourceURI = uri.toString()
-                        sound.origResourceURI = uri.toString()
-                    }
+            val board = boardExport.board
+            board.name = boardName
+            val soundslist = boardExport.soundlist
+            board.id = getNextBoardID()
+            board.filename = "imported_board_"+board.id+".json"
+            addBoard(board)
+            activateBoard(board)
+            for((id, fileBase64Str) in boardExport.soundIdToBase64File){
+                val sound = soundslist.getById(id)
+                sound?.let {
+                    val soundFileName = "sound_" + board.id + "_" + id + ".audio"
+                    val uri = StringFileUtils.writeBase64ToFile(context, soundFileName, fileBase64Str)
+                    sound.actualResourceURI = uri.toString()
+                    sound.origResourceURI = uri.toString()
                 }
-                SoundsManager.saveAsCurrentList(context, soundslist)
+            }
+            SoundsManager.saveAsCurrentList(context, soundslist)
         }
     }
 }
