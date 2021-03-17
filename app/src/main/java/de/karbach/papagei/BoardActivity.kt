@@ -9,8 +9,15 @@ import androidx.fragment.app.Fragment
 
 class BoardActivity: SingleFragmentActivity() {
 
+    companion object{
+        val EXTRA_BOARD_ID_PARAM = "EXTRA_BOARD_ID_PARAM"
+    }
+
     override fun createFragment(): Fragment {
-        return BoardFragment()
+        val res = BoardFragment()
+        res.arguments = Bundle()
+        res.arguments?.putInt(EXTRA_BOARD_ID_PARAM, intent.getIntExtra(EXTRA_BOARD_ID_PARAM, -1))
+        return res
     }
 
 }

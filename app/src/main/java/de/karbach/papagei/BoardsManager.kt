@@ -152,4 +152,8 @@ class BoardsManager (val context: Context) {
     fun getBoardByFileName(filename: String): Board?{
         return getCurrentBoards(context).filter{b -> b.filename == filename}.firstOrNull()
     }
+
+    fun getBoardByID(id: Int): Board?{
+        return getCurrentBoards(context).filter{b -> b.id == id}.firstOrNull()
+    }
 }

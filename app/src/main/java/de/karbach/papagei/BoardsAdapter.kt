@@ -55,6 +55,15 @@ class BoardsAdapter(val boards: ArrayList<Board>, val callback: Callback? = null
         holder.soundsCountView.text = board.soundsCount(holder.soundsCountView.context).toString()
         holder.setActive(board.active)
         addContextMenu(holder, board)
+        addOnClickListener(holder, board)
+    }
+
+    fun addOnClickListener(holder: BoardsAdapter.ViewHolder, board: Board){
+        holder.frame.setOnClickListener{
+            val intent = Intent(holder.frame.context, BoardActivity::class.java)
+            intent.putExtra(BoardActivity.EXTRA_BOARD_ID_PARAM, board.id)
+            holder.frame.context.startActivity(intent)
+        }
     }
 
     fun addContextMenu(holder: BoardsAdapter.ViewHolder, board: Board){
