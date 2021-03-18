@@ -60,9 +60,8 @@ class BoardsAdapter(val boards: ArrayList<Board>, val callback: Callback? = null
 
     fun addOnClickListener(holder: BoardsAdapter.ViewHolder, board: Board){
         holder.frame.setOnClickListener{
-            val intent = Intent(holder.frame.context, BoardActivity::class.java)
-            intent.putExtra(BoardActivity.EXTRA_BOARD_ID_PARAM, board.id)
-            holder.frame.context.startActivity(intent)
+            BoardsManager(holder.frame.context).activateBoard(board)
+            callback?.onDataChanged()
         }
     }
 
@@ -77,9 +76,10 @@ class BoardsAdapter(val boards: ArrayList<Board>, val callback: Callback? = null
                 menu?.forEach {
                     it.setOnMenuItemClickListener {
                         when (it.itemId) {
-                                R.id.menu_item_activate -> {
-                                    BoardsManager(holder.frame.context).activateBoard(board)
-                                    callback?.onDataChanged()
+                                R.id.menu_item_edit -> {
+                                    val intent = Intent(holder.frame.context, BoardActivity::class.java)
+                                    intent.putExtra(BoardActivity.EXTRA_BOARD_ID_PARAM, board.id)
+                                    holder.frame.context.startActivity(intent)
                                     return@setOnMenuItemClickListener true
                                 }
                                 R.id.menu_item_delete -> {
