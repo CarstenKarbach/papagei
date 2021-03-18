@@ -63,7 +63,7 @@ class BoardsManager(val context: Context) {
         val res = sharedPreferences.getStringSet("visible_tags", tags)
         val arrTags = ArrayList<String>()
         arrTags.addAll(tags)
-        return arrayListOf(Board(1, "Hömma", "default_sounds.json", true, true, arrTags))
+        return arrayListOf(Board(1, "Hömma", "soundlist.json", true, true, arrTags))
     }
 
     val deffilename = "boardlist.json"
