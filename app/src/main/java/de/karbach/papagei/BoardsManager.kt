@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
+import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import de.karbach.papagei.model.Board
 import de.karbach.papagei.model.BoardExport
@@ -56,7 +57,10 @@ class BoardsManager(val context: Context) {
     }
 
     fun getDefaultBoards(): ArrayList<Board> {
-        return arrayListOf(Board(1, "Hömma", "default_sounds.json", true, true))
+        val tags = SoundList().getDefaultTags()
+        val arrTags = ArrayList<String>()
+        arrTags.addAll(tags)
+        return arrayListOf(Board(1, "Hömma", "default_sounds.json", true, true, arrTags))
     }
 
     val deffilename = "boardlist.json"
@@ -84,6 +88,13 @@ class BoardsManager(val context: Context) {
         }
         board.active = true
         saveAsCurrentBoards(context)
+        //Set visible tags
+        val sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putStringSet("visible_tags", board.visible_tags.toSet())
+        editor.commit()
+
         SoundsManager.reloadCurrentList(context)
     }
 

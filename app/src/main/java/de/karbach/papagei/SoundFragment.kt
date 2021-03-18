@@ -21,6 +21,9 @@ import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import de.karbach.papagei.model.Sound
+import de.karbach.papagei.utils.getCurrentTags
+import de.karbach.papagei.utils.initTagAddButton
+import de.karbach.papagei.utils.resetTagsContainer
 import java.io.File
 
 
@@ -220,23 +223,6 @@ class SoundFragment: Fragment() {
         }
     }
 
-    public fun getCurrentTags(onlyChecked: Boolean) : ArrayList<String>{
-        val result = ArrayList<String>()
-        view?.let{
-            val tags_container = it.findViewById<LinearLayout>(R.id.tags_container)
-            for(child in tags_container.children){
-                val checkbox = child as CheckBox
-                if(!onlyChecked || checkbox.isChecked){
-                    val tagText = checkbox.text.toString()
-                    if(! result.contains(tagText)){
-                        result.add(tagText)
-                    }
-                }
-            }
-        }
-        return result
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -263,7 +249,7 @@ class SoundFragment: Fragment() {
         }
 
         loadDataIntoView(result)
-        resetTagsContainer(result)
+        resetTagsContainer(result, sound)
 
         val saveButton = result.findViewById<Button>(R.id.detail_save)
         if(sound != null){
@@ -366,33 +352,7 @@ class SoundFragment: Fragment() {
             }
         }
 
-        val tagAddButton = result.findViewById<Button>(R.id.add_tag)
-        val tagEditBox = result.findViewById<EditText>(R.id.new_tag_name)
-        tagAddButton.setOnClickListener{
-            val newTag = tagEditBox.text.trim().toString().toLowerCase()
-            if(newTag == ""){
-                Toast.makeText(
-                    activity as Activity, getString(R.string.tag_not_empty),
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-            if(getCurrentTags(false).contains(newTag)){
-                Toast.makeText(
-                    activity as Activity, getString(R.string.tag_available),
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-            val tags_container = result.findViewById<LinearLayout>(R.id.tags_container)
-            activity?.let {
-                val checkbox = inflater.inflate(R.layout.tag_checkbox, null) as CheckBox
-                checkbox.text = newTag
-                checkbox.isChecked = true
-                tags_container.addView(checkbox)
-            }
-        }
-
+        initTagAddButton(result, inflater)
         configureMediaPlayer(result)
 
         activity?.let {
@@ -541,25 +501,6 @@ class SoundFragment: Fragment() {
             MY_PERMISSIONS_REQUEST -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startAudioRecord()
-                }
-            }
-        }
-    }
-
-    fun resetTagsContainer(rootView: View?){
-        if(rootView != null){
-            val tags_container = rootView.findViewById<LinearLayout>(R.id.tags_container)
-            tags_container.removeAllViews()
-            activity?.let {
-                val tags = SoundsManager.getCurrentList(it).getAllTags()
-                val inflater = LayoutInflater.from(it)
-                for(t in tags){
-                    val checkbox = inflater.inflate(R.layout.tag_checkbox, null) as CheckBox
-                    checkbox.text = t
-                    if(sound?.hasTag(t) == true){
-                        checkbox.isChecked = true
-                    }
-                    tags_container.addView(checkbox)
                 }
             }
         }

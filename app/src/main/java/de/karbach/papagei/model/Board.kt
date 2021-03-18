@@ -3,7 +3,8 @@ package de.karbach.papagei.model
 import android.content.Context
 import de.karbach.papagei.SoundsManager
 
-class Board(var id: Int, var name: String, var filename: String, var active: Boolean = false, val isDefault: Boolean = false) {
+class Board(var id: Int, var name: String, var filename: String, var active: Boolean = false, val isDefault: Boolean = false,
+            val visible_tags: ArrayList<String> = ArrayList<String>()) : TagHolder {
 
     fun soundsCount(context: Context): Int{
         if(active){
@@ -17,4 +18,7 @@ class Board(var id: Int, var name: String, var filename: String, var active: Boo
         return soundList.sounds.size
     }
 
+    public override fun hasTag(tag: String):Boolean{
+        return visible_tags.contains(tag)
+    }
 }
