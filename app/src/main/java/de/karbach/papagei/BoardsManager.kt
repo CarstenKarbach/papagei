@@ -57,7 +57,10 @@ class BoardsManager(val context: Context) {
     }
 
     fun getDefaultBoards(): ArrayList<Board> {
-        val tags = SoundList().getDefaultTags()
+        val tags = SoundList().getDefaultTags().toSet()
+        val sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context)
+        val res = sharedPreferences.getStringSet("visible_tags", tags)
         val arrTags = ArrayList<String>()
         arrTags.addAll(tags)
         return arrayListOf(Board(1, "Hömma", "default_sounds.json", true, true, arrTags))
