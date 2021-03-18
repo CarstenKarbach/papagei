@@ -8,6 +8,7 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import de.karbach.papagei.R
 import de.karbach.papagei.SoundsManager
+import de.karbach.papagei.model.Board
 import de.karbach.papagei.model.TagHolder
 
 public fun Fragment.getCurrentTags(onlyChecked: Boolean) : ArrayList<String>{
@@ -56,12 +57,13 @@ fun Fragment.initTagAddButton(view: View, inflater: LayoutInflater){
     }
 }
 
-fun Fragment.resetTagsContainer(rootView: View?, tagHolder: TagHolder?){
+fun Fragment.resetTagsContainer(rootView: View?, tagHolder: TagHolder?, board: Board? = null){
     if(rootView != null){
         val tags_container = rootView.findViewById<LinearLayout>(R.id.tags_container)
         tags_container.removeAllViews()
         activity?.let {
-            val tags = SoundsManager.getCurrentList(it).getAllTags(it)
+
+            val tags = SoundsManager.getCurrentList(it).getAllTags(it, board)
             val inflater = LayoutInflater.from(it)
             for(t in tags){
                 val checkbox = inflater.inflate(R.layout.tag_checkbox, null) as CheckBox

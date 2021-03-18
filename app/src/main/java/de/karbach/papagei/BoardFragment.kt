@@ -48,7 +48,7 @@ class BoardFragment: Fragment() {
     fun loadData(){
         val board = getBoard()
         view?.let {
-            resetTagsContainer(view, board)
+            resetTagsContainer(view, board, board)
         }
         if(board == null){
             return

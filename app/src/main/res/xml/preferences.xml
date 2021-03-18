@@ -8,12 +8,14 @@
         android:key="@string/reset_sounds_key"
         android:summary="@string/reset_sounds_long"
         android:icon="@android:drawable/ic_menu_revert"
+        app:allowDividerBelow="true"
         />
     <Preference
         android:title="@string/manage_boards"
         android:key="@string/manage_boards_key"
         android:summary="@string/manage_boards_summary"
         android:icon="@android:drawable/ic_menu_edit"
+        app:allowDividerAbove="true"
         />
 
 </androidx.preference.PreferenceScreen>

@@ -68,10 +68,8 @@ class BoardListActivity: SingleFragmentActivity() {
         super.onCreate(savedInstanceState)
 
         if(intent?.action == Intent.ACTION_SEND){
-            if("application/json" == intent.type || "application/octet-stream" == intent.type){
-                (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
-                    createDialog(it)
-                }
+            (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+                createDialog(it)
             }
         }
     }

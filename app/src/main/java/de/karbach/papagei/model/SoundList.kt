@@ -55,7 +55,7 @@ class SoundList {
         return defaultTags
     }
 
-    public fun getAllTags(context: Context):List<String>{
+    public fun getAllTags(context: Context, board: Board? = null):List<String>{
         val result = ArrayList<String>()
         for(s in sounds){
             for(t in s.getValidTags()){
@@ -72,7 +72,8 @@ class SoundList {
             }
             result.add(dt)
         }
-        val boardTags = BoardsManager.getActiveBoard(context).visible_tags
+        val actualBoard = board ?: BoardsManager.getActiveBoard(context)
+        val boardTags = actualBoard.visible_tags
         for(bt in boardTags){
             if(result.contains(bt)){
                 continue
