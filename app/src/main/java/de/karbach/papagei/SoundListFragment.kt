@@ -4,38 +4,30 @@ import android.Manifest
 import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.*
+import android.widget.*
+import android.widget.AdapterView.AdapterContextMenuInfo
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.view.iterator
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.ListFragment
 import de.karbach.papagei.model.Sound
 import de.karbach.papagei.model.SoundList
-import androidx.core.app.ActivityCompat
-import android.content.DialogInterface
-import android.graphics.Color
-import android.view.*
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import android.widget.AdapterView.AdapterContextMenuInfo
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import androidx.core.view.get
-import androidx.core.view.iterator
-import androidx.core.view.size
+import de.karbach.papagei.utils.initNavigationView
 import de.karbach.papagei.utils.titleToActiveBoardName
-import java.io.File
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * List of all sounds independent of tags
@@ -69,15 +61,15 @@ class SoundListFragment: ListFragment() {
     }
 
     override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
+        menu: ContextMenu,
+        v: View,
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         activity?.menuInflater?.inflate(R.menu.sound_context_menu, menu)
     }
 
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
+    override fun onContextItemSelected(item: MenuItem): Boolean {
         super.onContextItemSelected(item)
         val info = item?.menuInfo as AdapterContextMenuInfo
         val sound = displaySounds.get(info.position)
@@ -100,8 +92,7 @@ class SoundListFragment: ListFragment() {
                 val soundMan = SoundsManager(activity as Context)
                 try {
                     soundMan.shareSound(sound)
-                }
-                catch(e:Exception){
+                } catch (e: Exception) {
                 }
             }
         }
@@ -115,7 +106,8 @@ class SoundListFragment: ListFragment() {
                 != PackageManager.PERMISSION_GRANTED) {
                 // Should we show an explanation?
                 if (shouldShowRequestPermissionRationale(
-                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )) {
                     val builder = AlertDialog.Builder(activity as Activity)
                     builder.setMessage(getString(R.string.need_external))
                     builder.setTitle(getString(R.string.please_grant))
@@ -137,7 +129,10 @@ class SoundListFragment: ListFragment() {
                     );
                 }
 
-                return checkSelfPermission(activity as Context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                return checkSelfPermission(
+                    activity as Context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
             }
             else{
                 return true
@@ -148,8 +143,17 @@ class SoundListFragment: ListFragment() {
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.sounds_list, container, false)
+    }
+
     override fun onResume() {
         super.onResume()
+
+        initNavigationView(R.id.navigation_sound_list)
 
         updateDisplayedItems()
         registerForContextMenu(listView)
@@ -179,7 +183,7 @@ class SoundListFragment: ListFragment() {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(permissionSoundCache != null) {
+                    if (permissionSoundCache != null) {
                         playSound(permissionSoundCache as Sound)
                     }
                 }
@@ -196,7 +200,7 @@ class SoundListFragment: ListFragment() {
         }
     }
 
-    fun setIconForSound(sound:Sound, resId:Int, color:Int?){
+    fun setIconForSound(sound: Sound, resId: Int, color: Int?){
         val childPos = displaySounds.indexOf(sound)
         if(color != null && color != 0 && childPos >= 0 && childPos< displaySounds.size) {
             listView.smoothScrollToPosition(childPos)
@@ -213,12 +217,12 @@ class SoundListFragment: ListFragment() {
         }
     }
 
-    fun playSound(sound:Sound){
+    fun playSound(sound: Sound){
         resetIcons()
 
         mediaPlayer.stop()
         mediaPlayer.reset()
-        mediaPlayer.setDataSource(activity as Context, Uri.parse(sound.actualResourceURI) )
+        mediaPlayer.setDataSource(activity as Context, Uri.parse(sound.actualResourceURI))
         mediaPlayer.prepare()
 
         mediaPlayer.setOnCompletionListener {
@@ -231,7 +235,7 @@ class SoundListFragment: ListFragment() {
         setIconForSound(sound, android.R.drawable.ic_media_pause, COLOR_ACTIVE)
     }
 
-    override fun onListItemClick(l: ListView?, v: View?, position: Int, id: Long) {
+    override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {
         super.onListItemClick(l, v, position, id)
         val item = displaySounds.get(position)
 
@@ -250,7 +254,7 @@ class SoundListFragment: ListFragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.soundlistmenu, menu)
 
@@ -267,19 +271,14 @@ class SoundListFragment: ListFragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
-            R.id.menu_item_grid -> {
-                val intent = Intent(context, SoundGridActivity::class.java)
-                startActivity(intent)
-                return true
-            }
             R.id.menu_item_search -> {
                 activity?.onSearchRequested()
                 return true
             }
             R.id.menu_item_sound_random -> {
-                if(displaySounds.isEmpty()){
+                if (displaySounds.isEmpty()) {
                     return false
                 }
                 val randomIndex = Random().nextInt(displaySounds.size)
@@ -287,7 +286,7 @@ class SoundListFragment: ListFragment() {
                 return true
             }
             R.id.menu_item_sound_add -> {
-                val i = Intent(activity,SoundActivity::class.java)
+                val i = Intent(activity, SoundActivity::class.java)
                 startActivity(i)
                 return true
             }
@@ -304,7 +303,7 @@ class SoundListFragment: ListFragment() {
         search(searchStr)
     }
 
-    public fun search(searchStr:String=""){
+    public fun search(searchStr: String = ""){
         this.searchStr = searchStr
         displaySounds = getCurrentSoundList().search(searchStr)
         notifyAdapterOnDataChanged()

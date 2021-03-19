@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import de.karbach.papagei.utils.initNavigationView
 import java.util.*
 
 
@@ -35,6 +36,8 @@ class BoardListFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
+        initNavigationView(R.id.navigation_boards)
+
         view?.let{
             val recycler = it.findViewById<RecyclerView>(R.id.boards)
 
@@ -53,20 +56,15 @@ class BoardListFragment: Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.boardslist_menu, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             R.id.menu_item_add_board -> {
                 val intent = Intent(context, BoardActivity::class.java)
-                startActivity(intent)
-                return true
-            }
-            R.id.menu_item_grid -> {
-                val intent = Intent(context, SoundGridActivity::class.java)
                 startActivity(intent)
                 return true
             }

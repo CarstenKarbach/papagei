@@ -1079,4 +1079,5 @@
     <string name="cannot_deactivate">An active board cannot be deactivated here.</string>
     <string name="new_board_created">New board successfully created.</string>
     <string name="changes_saved">Changes successfully saved.</string>
+    <string name="boards">Boards</string>
 </resources>

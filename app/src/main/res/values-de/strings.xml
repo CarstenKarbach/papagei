@@ -44,7 +44,7 @@
     <string name="search">suchen</string>
     <string name="random">zufällig</string>
     <string name="settings">Einstellungen</string>
-    <string name="grid">abspielen</string>
+    <string name="grid">Sounds</string>
     <string name="sound_msg">Sound \'</string>
     <string name="saved_success">\' erfolgreich gespeichert</string>
     <string name="please_select_icon">Bitte wählen Sie ein Icon</string>
@@ -77,4 +77,5 @@
     <string name="cannot_deactivate">Ein aktives Board kann hier nicht deaktiviert werden.</string>
     <string name="new_board_created">Neues Board wurde erfolgreich erstellt.</string>
     <string name="changes_saved">Änderungen erfolgreich gespeichert.</string>
+    <string name="boards">Boards</string>
 </resources>

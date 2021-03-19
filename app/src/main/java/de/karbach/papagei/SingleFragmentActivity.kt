@@ -20,6 +20,10 @@ abstract class SingleFragmentActivity: AppCompatActivity() {
         return true;
     }
 
+    protected open fun getLayoutId(): Int{
+        return R.layout.single_fragment
+    }
+
     /**
      * create fragment, add it to the fragment_container
      * @param savedInstanceState
@@ -27,7 +31,7 @@ abstract class SingleFragmentActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.single_fragment);
+        setContentView(getLayoutId());
 
         val fm: FragmentManager = this.supportFragmentManager;
         var f:Fragment? = fm.findFragmentById(R.id.fragment_container);
