@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.PreferenceFragmentCompat
 
@@ -26,7 +27,8 @@ class Settings : PreferenceFragmentCompat() {
             }
             multiSelectListPreference.setDefaultValue(soundlist.getDefaultTags().toSet())
             multiSelectListPreference.isIconSpaceReserved = true
-            multiSelectListPreference.icon = it.resources.getDrawable(android.R.drawable.ic_menu_view)
+            multiSelectListPreference.icon = it.getDrawable(R.drawable.ic_eye_slash_solid)
+            multiSelectListPreference.icon.setTint(ContextCompat.getColor(it, R.color.iconSecondaryColor))
             multiSelectListPreference.setOnPreferenceChangeListener { preference, newValue ->
                 if(newValue is HashSet<*>){
                     val board = BoardsManager.getActiveBoard(it)

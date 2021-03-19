@@ -21,7 +21,7 @@
             />
     <item android:id="@+id/menu_item_settings"
         android:title="@string/settings"
-        android:icon="@drawable/ic_ellipsis_v_solid"
+        android:icon="@drawable/ic_cog_solid"
         android:iconTint="@color/iconMainColor"
         app:showAsAction="always"
         />

@@ -8,6 +8,7 @@
     <color name="colorRecordActive">#BE0000</color>
 
     <color name="iconMainColor">#FFFFFF</color>
+    <color name="iconSecondaryColor">@color/colorPrimaryDark</color>
 
     <color name="red">#ff0000</color>
     <color name="orange">#ffbf00</color>
