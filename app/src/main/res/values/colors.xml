@@ -7,6 +7,8 @@
     <color name="colorRecordInactive">#636363</color>
     <color name="colorRecordActive">#BE0000</color>
 
+    <color name="iconMainColor">#FFFFFF</color>
+
     <color name="red">#ff0000</color>
     <color name="orange">#ffbf00</color>
     <color name="yellow">#eeee00</color>

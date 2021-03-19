@@ -19,6 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.view.iterator
+import androidx.core.view.setPadding
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.ListFragment
 import de.karbach.papagei.model.Sound
@@ -269,6 +270,18 @@ class SoundListFragment: ListFragment() {
             search()
             return@setOnCloseListener false
         }
+
+        val searchImgId = resources.getIdentifier("android:id/search_button", null, null)
+        val v = searchView?.findViewById(searchImgId) as ImageView
+        v.setImageResource(R.drawable.ic_search_solid)
+        v.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        val size_in_dp = 56
+        val scale = resources.displayMetrics.density
+        val size_in_px = (size_in_dp * scale + 0.5f).toInt()
+
+        v.layoutParams.width = size_in_px
+        v.layoutParams.height = size_in_px
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
