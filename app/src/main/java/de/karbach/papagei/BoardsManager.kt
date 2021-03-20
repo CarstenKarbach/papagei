@@ -23,6 +23,27 @@ class BoardsManager(val context: Context) {
     companion object{
         private var currentList: ArrayList<Board>?=null
 
+        fun clearAllBoards(context: Context){
+            val bm = BoardsManager(context)
+            currentList?.let{
+                while(! it.isEmpty()){
+                    val board = it.last()
+                    bm.deleteBoard(board)
+                }
+            }
+            currentList = bm.getDefaultBoards()
+            currentList?.let {
+                val defboard = it.last()
+
+                val tags = SoundList().getDefaultTags().toSet()
+                defboard.visible_tags.clear()
+                defboard.visible_tags.addAll(tags)
+
+                bm.activateBoard(defboard)
+            }
+            saveAsCurrentBoards(context)
+        }
+
         fun getCurrentBoards(context: Context): ArrayList<Board> {
             if(currentList != null){
                 return currentList as ArrayList<Board>

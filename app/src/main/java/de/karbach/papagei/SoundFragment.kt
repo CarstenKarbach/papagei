@@ -50,6 +50,8 @@ class SoundFragment: Fragment() {
         super.onCreate(savedInstanceState)
         retainInstance = true
 
+        activity?.title = getString(R.string.sound_title)
+
         COLOR_RECORD_ACTIVE = ContextCompat.getColor(activity as Context, R.color.colorRecordActive)
         COLOR_RECORD_INACTIVE = ContextCompat.getColor(
             activity as Context,

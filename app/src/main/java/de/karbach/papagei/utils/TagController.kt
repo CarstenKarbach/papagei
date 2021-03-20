@@ -68,8 +68,13 @@ fun Fragment.resetTagsContainer(rootView: View?, tagHolder: TagHolder?, board: B
             for(t in tags){
                 val checkbox = inflater.inflate(R.layout.tag_checkbox, null) as CheckBox
                 checkbox.text = t
-                if(tagHolder?.hasTag(t) == true){
+                if(tagHolder == null){
                     checkbox.isChecked = true
+                }
+                else {
+                    if (tagHolder?.hasTag(t) == true) {
+                        checkbox.isChecked = true
+                    }
                 }
                 tags_container.addView(checkbox)
             }

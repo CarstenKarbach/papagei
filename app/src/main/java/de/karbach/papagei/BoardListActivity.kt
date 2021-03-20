@@ -42,9 +42,13 @@ class BoardListActivity: SingleFragmentActivity() {
                 return@setOnClickListener
             }
             try {
-                BoardsManager(this).importBoard(uri, name)
+                bm.importBoard(uri, name)
             }
             catch(e: Exception){
+                val board = bm.getBoardByName(name)
+                board?.let{
+                    bm.deleteBoard(it)
+                }
                 Toast.makeText(this, "Beim Import ist ein Fehler aufgetreten.", Toast.LENGTH_SHORT).show()
                 dialogBuilder.dismiss()
                 return@setOnClickListener

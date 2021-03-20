@@ -3,8 +3,8 @@ package de.karbach.papagei
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.preference.MultiSelectListPreference
@@ -51,24 +51,30 @@ class Settings : PreferenceFragmentCompat() {
                 builder.setMessage(getString(R.string.sure_question))
 
                 builder.setPositiveButton(
-                    getString(R.string.yes),
-                    DialogInterface.OnClickListener { dialog, which ->
-                        dialog.dismiss()
-                        context?.let {
-                            val sm = SoundsManager(it)
-                            sm.resetToTestSounds()
-                            Toast.makeText(
-                                it, getString(R.string.reset_successful),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                        getString(R.string.yes),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                            context?.let {
+                                BoardsManager.clearAllBoards(it)
+                                val sm = SoundsManager(it)
+                                sm.resetToTestSounds()
+
+                                activity?.finish()
+                                val intent = Intent(context, SettingsActivity::class.java)
+                                startActivity(intent)
+
+                                Toast.makeText(
+                                        it, getString(R.string.reset_successful),
+                                        Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
 
                 builder.setNegativeButton(
-                    getString(R.string.no),
-                    DialogInterface.OnClickListener { dialog, which ->
-                        dialog.dismiss()
-                    })
+                        getString(R.string.no),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
 
                 val alert = builder.create()
                 alert.show()
@@ -87,4 +93,8 @@ class Settings : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.setTitle(resources.getString(R.string.settings_title))
+    }
 }
