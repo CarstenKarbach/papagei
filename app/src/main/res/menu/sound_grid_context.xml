@@ -12,4 +12,10 @@
         android:iconTint="@color/iconMainColor"
         app:showAsAction="ifRoom"
         />
+    <item android:id="@+id/menu_item_sound_share"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share_solid"
+        android:iconTint="@color/iconMainColor"
+        app:showAsAction="ifRoom"
+        />
 </menu>

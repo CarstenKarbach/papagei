@@ -1,6 +1,7 @@
 package de.karbach.papagei
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.*
@@ -96,6 +97,17 @@ class SoundGridAdapter(val soundList: SoundList, val soundClickCallback: SoundCl
                             R.id.menu_item_sound_delete -> {
                                 sound?.let {
                                     soundClickCallback?.deleteSound(it)
+                                    return@setOnMenuItemClickListener true
+                                }
+                                return@setOnMenuItemClickListener false
+                            }
+                            R.id.menu_item_sound_share -> {
+                                sound?.let {
+                                    val soundMan = SoundsManager(holder.frame.context)
+                                    try {
+                                        soundMan.shareSound(it)
+                                    } catch (e: Exception) {
+                                    }
                                     return@setOnMenuItemClickListener true
                                 }
                                 return@setOnMenuItemClickListener false
