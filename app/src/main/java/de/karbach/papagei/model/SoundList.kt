@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
+import de.karbach.papagei.BoardsManager
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -54,7 +55,7 @@ class SoundList {
         return defaultTags
     }
 
-    public fun getAllTags():List<String>{
+    public fun getAllTags(context: Context, board: Board? = null):List<String>{
         val result = ArrayList<String>()
         for(s in sounds){
             for(t in s.getValidTags()){
@@ -70,6 +71,14 @@ class SoundList {
                 continue
             }
             result.add(dt)
+        }
+        val actualBoard = board ?: BoardsManager.getActiveBoard(context)
+        val boardTags = actualBoard.visible_tags
+        for(bt in boardTags){
+            if(result.contains(bt)){
+                continue
+            }
+            result.add(bt)
         }
         result.sort()
         return result

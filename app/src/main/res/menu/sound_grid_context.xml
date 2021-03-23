@@ -2,12 +2,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_item_sound_edit"
             android:title="@string/edit"
-            android:icon="@android:drawable/ic_menu_edit"
+            android:icon="@drawable/ic_edit_solid"
+            android:iconTint="@color/colorPrimary"
             app:showAsAction="ifRoom"
             />
     <item android:id="@+id/menu_item_sound_delete"
         android:title="@string/delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_trash_solid"
+        android:iconTint="@color/iconMainColor"
         app:showAsAction="ifRoom"
         />
 </menu>

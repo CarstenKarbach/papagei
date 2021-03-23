@@ -1067,4 +1067,19 @@
     <string name="sure_question">Do you really want to reset all sounds?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="manage_boards_key">manage_boards_key</string>
+    <string name="manage_boards_summary">Create boards, select them, exports</string>
+    <string name="select">select</string>
+    <string name="exportieren">export</string>
+    <string name="manage_boards">Manage boards</string>
+    <string name="name">Name</string>
+    <string name="board">Board</string>
+    <string name="active_board_cannot_be_deleted">Active board cannot be deleted.</string>
+    <string name="active">Active</string>
+    <string name="cannot_deactivate">An active board cannot be deactivated here.</string>
+    <string name="new_board_created">New board successfully created.</string>
+    <string name="changes_saved">Changes successfully saved.</string>
+    <string name="boards">Boards</string>
+    <string name="settings_title">Settings</string>
+    <string name="sound_title">Sound</string>
 </resources>

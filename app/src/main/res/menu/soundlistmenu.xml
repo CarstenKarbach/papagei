@@ -1,29 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_item_grid"
-        android:title="@string/grid"
-        android:icon="@android:drawable/ic_menu_slideshow"
-        app:showAsAction="always"
-        />
     <item android:id="@+id/menu_item_search"
         android:title="@string/search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search_solid"
+        android:iconTint="@color/iconMainColor"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView"
         />
     <item android:id="@+id/menu_item_sound_random"
         android:title="@string/random"
-        android:icon="@android:drawable/ic_media_play"
+        android:icon="@drawable/ic_random_solid"
+        android:iconTint="@color/iconMainColor"
         app:showAsAction="always"
         />
     <item android:id="@+id/menu_item_sound_add"
             android:title="@string/add"
-            android:icon="@android:drawable/ic_menu_add"
+            android:icon="@drawable/ic_plus_circle_solid"
+            android:iconTint="@color/iconMainColor"
             app:showAsAction="always"
             />
     <item android:id="@+id/menu_item_settings"
         android:title="@string/settings"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_cog_solid"
+        android:iconTint="@color/iconMainColor"
         app:showAsAction="always"
         />
 </menu>

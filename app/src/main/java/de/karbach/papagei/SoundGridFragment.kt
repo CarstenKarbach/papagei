@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import de.karbach.papagei.model.Sound
 import de.karbach.papagei.model.SoundList
+import de.karbach.papagei.utils.initNavigationView
+import de.karbach.papagei.utils.titleToActiveBoardName
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -59,9 +61,13 @@ class SoundGridFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
+        initNavigationView(R.id.navigation_sound_grid)
+
         updateDisplaySounds()
         connectSoundListAdapter()
         soundGridAdapter?.notifyDataSetChanged()
+
+        titleToActiveBoardName()
     }
 
     fun deleteSoundFromList(sound: Sound){
@@ -222,7 +228,7 @@ class SoundGridFragment: Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.soundgridmenu, menu)
     }
@@ -235,16 +241,11 @@ class SoundGridFragment: Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             R.id.menu_item_search -> {
                 val intent = Intent(context, SoundListActivity::class.java)
                 intent.putExtra(SoundListActivity.SEARCH_REQUEST, true)
-                startActivity(intent)
-                return true
-            }
-            R.id.menu_item_list -> {
-                val intent = Intent(context, SoundListActivity::class.java)
                 startActivity(intent)
                 return true
             }

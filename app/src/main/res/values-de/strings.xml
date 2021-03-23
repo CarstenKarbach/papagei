@@ -44,7 +44,7 @@
     <string name="search">suchen</string>
     <string name="random">zufällig</string>
     <string name="settings">Einstellungen</string>
-    <string name="grid">abspielen</string>
+    <string name="grid">Sounds</string>
     <string name="sound_msg">Sound \'</string>
     <string name="saved_success">\' erfolgreich gespeichert</string>
     <string name="please_select_icon">Bitte wählen Sie ein Icon</string>
@@ -65,4 +65,19 @@
     <string name="sure_question">Möchten Sie wirklich alle Sounds zurücksetzen?</string>
     <string name="yes">JA</string>
     <string name="no">NEIN</string>
+    <string name="manage_boards">Boards verwalten</string>
+    <string name="manage_boards_key">manage_boards_key</string>
+    <string name="manage_boards_summary">Boards erstellen, auswählen, exportieren</string>
+    <string name="select">auswählen</string>
+    <string name="exportieren">exportieren</string>
+    <string name="name">Name</string>
+    <string name="board">Board</string>
+    <string name="active_board_cannot_be_deleted">Das aktive Board kann nicht gelöscht werden.</string>
+    <string name="active">Aktiv</string>
+    <string name="cannot_deactivate">Ein aktives Board kann hier nicht deaktiviert werden.</string>
+    <string name="new_board_created">Neues Board wurde erfolgreich erstellt.</string>
+    <string name="changes_saved">Änderungen erfolgreich gespeichert.</string>
+    <string name="boards">Boards</string>
+    <string name="settings_title">Einstellungen</string>
+    <string name="sound_title">Sound</string>
 </resources>

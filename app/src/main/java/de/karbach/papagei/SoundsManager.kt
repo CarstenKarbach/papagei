@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import java.io.*
 import java.lang.RuntimeException
 import android.content.res.AssetManager
+import de.karbach.papagei.utils.StringFileUtils
 import kotlin.random.Random
 
 
@@ -24,17 +25,26 @@ class SoundsManager(val context: Context) {
     companion object{
         private var currentList:SoundList?=null
 
+        fun getCurrentSoundListFilename(context: Context): String{
+            return BoardsManager.getActiveBoard(context).filename
+        }
+
+        fun reloadCurrentList(context: Context){
+            val man = SoundsManager(context)
+            var res = man.loadList()
+            if(res == null){
+                res = man.getResetSoundsList()
+                saveAsCurrentList(context, res)
+            }
+            SoundsManager.currentList = res
+        }
+
         fun getCurrentList(context: Context): SoundList{
             if(SoundsManager.currentList != null){
                 return SoundsManager.currentList as SoundList
             }
-            val man = SoundsManager(context)
-            var res = man.loadList()
-            if(res == null){
-                res = man.getTestSounds()
-            }
-            SoundsManager.currentList = res
-            return res as SoundList
+            reloadCurrentList(context)
+            return SoundsManager.currentList as SoundList
         }
 
         fun saveAsCurrentList(context: Context, soundlist: SoundList? = SoundsManager.currentList){
@@ -60,9 +70,19 @@ class SoundsManager(val context: Context) {
         return testSounds
     }*/
 
-    fun resetToTestSounds(subfolder: String = def_sound_folder){
-        val soundlist = getTestSounds(subfolder)
+    fun resetToTestSounds(){
+        val soundlist = getResetSoundsList()
         saveAsCurrentList(context, soundlist)
+    }
+
+    fun getResetSoundsList():SoundList{
+        val board = BoardsManager.getActiveBoard(context)
+        if(board.isDefault) {
+            return getTestSounds()
+        }
+        else{
+            return SoundList()
+        }
     }
 
     fun getTestSounds(subfolder: String = def_sound_folder):SoundList{
@@ -85,60 +105,6 @@ class SoundsManager(val context: Context) {
             soundList.addSound(sound)
         }
         return soundList
-    }
-
-    private fun writeToFile(data: String, filename: String) {
-        try {
-            val outputStreamWriter =
-                OutputStreamWriter(context.openFileOutput(filename, MODE_PRIVATE))
-            outputStreamWriter.write(data)
-            outputStreamWriter.close()
-        } catch (e: IOException) {
-            Log.e("Exception", "File write failed: " + e.toString())
-        }
-    }
-
-    private fun readFromFile(filename: String): String {
-        var ret = ""
-        try {
-            val inputStream = context.openFileInput(filename)
-
-            if (inputStream != null) {
-                val inputStreamReader = InputStreamReader(inputStream)
-                val bufferedReader = BufferedReader(inputStreamReader)
-                val allText = bufferedReader.use(BufferedReader::readText)
-                ret = allText
-            }
-        } catch (e: FileNotFoundException) {
-            Log.e("readFromFile", "File not found: " + e.toString())
-        } catch (e: IOException) {
-            Log.e("readFromFile", "Can not read file: $e")
-        }
-        return ret
-    }
-
-    public fun readAudioFileToBase64(uri: Uri): String?{
-        Log.d("Base64-prestart", uri.toString())
-        val inputStream = context.getContentResolver().openInputStream(uri)
-        if(inputStream == null){
-            return null
-        }
-        val buffer = ByteArrayOutputStream()
-        val data = ByteArray(16384)
-        var nRead: Int = inputStream.read(data, 0, data.size)
-
-        while (nRead != -1) {
-            buffer.write(data, 0, nRead)
-            nRead = inputStream.read(data, 0, data.size)
-        }
-
-        val ba= buffer.toByteArray()
-        val res = Base64.encodeToString(ba, Base64.DEFAULT)
-
-        Log.d("Base64-uri", uri.toString())
-        Log.d("Base64-strl", res.substring(0, 10)+"..."+res.length.toString())
-
-        return res
     }
 
     public fun copyFile(sourceuri: Uri, filename: String, useOutPutStream: FileOutputStream? = null):Boolean {
@@ -185,10 +151,9 @@ class SoundsManager(val context: Context) {
         }
     }
 
-    val deffilename = "soundlist.json"
-
-    fun loadList(): SoundList?{
-        val jsonString = readFromFile(deffilename)
+    fun loadList(filename: String? = null): SoundList?{
+        val loadFile = filename ?: getCurrentSoundListFilename(context)
+        val jsonString = StringFileUtils.readFromFile(loadFile, context)
         if(jsonString == ""){
             return null
         }
@@ -196,10 +161,11 @@ class SoundsManager(val context: Context) {
         return loadedJSON
     }
 
-    fun saveSoundList(soundlist:SoundList){
+    fun saveSoundList(soundlist:SoundList, filename: String? = null){
         val storeJSON = Gson().toJson(soundlist)
         Log.d("storejson", storeJSON)
-        writeToFile(storeJSON, deffilename)
+        val storeFile = filename ?: getCurrentSoundListFilename(context)
+        StringFileUtils.writeToFile(storeJSON, storeFile, context)
     }
 
     fun shareSound(sound:Sound){

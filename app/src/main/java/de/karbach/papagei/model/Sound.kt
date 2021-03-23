@@ -6,7 +6,7 @@ import java.net.URL
 
 class Sound(var id: Int = 0, var origResourceURI: String, var actualResourceURI: String,
             var description: String, var audioRecord:Boolean=false, var tags: ArrayList<String>? = ArrayList<String>(),
-            var icon:String=Sound.defIcon, var color:Int= ColorHelper.defaultColor) {
+            var icon:String=Sound.defIcon, var color:Int= ColorHelper.defaultColor) : TagHolder {
 
     companion object {
         const val defIcon = "\uf144"
@@ -24,7 +24,7 @@ class Sound(var id: Int = 0, var origResourceURI: String, var actualResourceURI:
         return tags as ArrayList<String>
     }
 
-    public fun hasTag(tag: String):Boolean{
+    public override fun hasTag(tag: String):Boolean{
         return getValidTags().contains(tag)
     }
 
