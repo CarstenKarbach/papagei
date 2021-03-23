@@ -1,12 +1,7 @@
 package de.karbach.papagei
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
@@ -61,7 +56,15 @@ class SoundGridAdapter(val soundList: SoundList, val soundClickCallback: SoundCl
         return soundList.sounds.size
     }
 
+    private val mBoundViewHolders: HashSet<ViewHolder> = HashSet()
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        mBoundViewHolders.remove(holder)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        mBoundViewHolders.add(holder)
         val sound = if(position < soundList.sounds.size) soundList.sounds.get(position) else null
         holder.textView.text = sound?.description ?: ""
         holder.frame.setOnClickListener{
@@ -75,11 +78,11 @@ class SoundGridAdapter(val soundList: SoundList, val soundClickCallback: SoundCl
         val resolvedColor = ContextCompat.getColor(holder.icon.context, ColorHelper().nameToColor(color))
         holder.icon.setTextColor(resolvedColor)
 
-        holder.frame.setOnCreateContextMenuListener(object: View.OnCreateContextMenuListener{
+        holder.frame.setOnCreateContextMenuListener(object : View.OnCreateContextMenuListener {
             override fun onCreateContextMenu(
-                menu: ContextMenu?,
-                v: View?,
-                menuInfo: ContextMenu.ContextMenuInfo?
+                    menu: ContextMenu?,
+                    v: View?,
+                    menuInfo: ContextMenu.ContextMenuInfo?
             ) {
                 MenuInflater(holder.frame.context).inflate(R.menu.sound_grid_context, menu)
                 menu?.forEach {
@@ -112,7 +115,9 @@ class SoundGridAdapter(val soundList: SoundList, val soundClickCallback: SoundCl
                                 }
                                 return@setOnMenuItemClickListener false
                             }
-                            else -> {return@setOnMenuItemClickListener false}
+                            else -> {
+                                return@setOnMenuItemClickListener false
+                            }
                         }
                     }
                 }
@@ -121,10 +126,7 @@ class SoundGridAdapter(val soundList: SoundList, val soundClickCallback: SoundCl
     }
 
     fun clearViewStates(recyclerView: RecyclerView, activateForSound: Sound? = null){
-        val childCount = recyclerView.getChildCount()
-        for (i in 0..childCount-1) {
-            val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i));
-            val viewHolder = holder as ViewHolder
+        for (viewHolder in mBoundViewHolders) {
             val currentSound = viewHolder.sound
             val playingState = currentSound != null && currentSound.id == activateForSound?.id
             viewHolder.setPlayingState(playingState)
