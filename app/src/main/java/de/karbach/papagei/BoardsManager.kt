@@ -78,13 +78,7 @@ class BoardsManager(val context: Context) {
     }
 
     fun getDefaultBoards(): ArrayList<Board> {
-        val tags = SoundList().getDefaultTags().toSet()
-        val sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(context)
-        val res = sharedPreferences.getStringSet("visible_tags", tags)
-        val arrTags = ArrayList<String>()
-        arrTags.addAll(res as Set<String>)
-        return arrayListOf(Board(1, "Hömma", "soundlist.json", true, true, arrTags))
+        return arrayListOf(Board(1, "Hömma", "soundlist.json", true, true, ArrayList<String>()))
     }
 
     val deffilename = "boardlist.json"
@@ -112,12 +106,6 @@ class BoardsManager(val context: Context) {
         }
         board.active = true
         saveAsCurrentBoards(context)
-        //Set visible tags
-        val sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(context)
-        val editor = sharedPreferences.edit()
-        editor.putStringSet("visible_tags", board.visible_tags.toSet())
-        editor.commit()
 
         SoundsManager.reloadCurrentList(context)
     }

@@ -15,32 +15,6 @@ class Settings : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        context?.let {
-            val soundlist = SoundsManager.getCurrentList(it)
-            val tags = soundlist.getAllTags(it).toTypedArray()
-            val multiSelectListPreference = MultiSelectListPreference(context).apply {
-                key = "visible_tags"
-                title = getString(R.string.visible_tags)
-                summary = getString(R.string.choose_vis_text)
-                entries = tags
-                entryValues = tags
-            }
-            multiSelectListPreference.setDefaultValue(soundlist.getDefaultTags().toSet())
-            multiSelectListPreference.isIconSpaceReserved = true
-            multiSelectListPreference.icon = it.getDrawable(R.drawable.ic_eye_slash_solid)
-            multiSelectListPreference.icon.setTint(ContextCompat.getColor(it, R.color.iconSecondaryColor))
-            multiSelectListPreference.setOnPreferenceChangeListener { preference, newValue ->
-                if(newValue is HashSet<*>){
-                    val board = BoardsManager.getActiveBoard(it)
-                    board.visible_tags.clear()
-                    board.visible_tags.addAll((newValue as HashSet<String>))
-                    BoardsManager.saveAsCurrentBoards(it)
-                }
-                return@setOnPreferenceChangeListener true
-            }
-            this.preferenceScreen.addPreference(multiSelectListPreference);
-        }
-
         val button = findPreference(getString(R.string.reset_sounds_key))
         button.setOnPreferenceClickListener {
 

@@ -116,9 +116,8 @@ class SoundGridFragment: Fragment() {
     fun updateDisplaySounds() : SoundList{
         activity?.let {
             val soundList = SoundsManager.getCurrentList(it)
-            val res = soundList.filterByTags(getVisibleTags())
-            displayedSounds = res
-            return res
+            displayedSounds = soundList.copy()
+            return soundList
         }
         val res = SoundList()
         displayedSounds = res

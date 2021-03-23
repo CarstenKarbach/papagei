@@ -84,6 +84,12 @@ class SoundList {
         return result
     }
 
+    fun copy(): SoundList{
+        val res = SoundList()
+        res.sounds.addAll(sounds)
+        return res
+    }
+
     public fun filterByTags(tags: Set<String>): SoundList{
         val res = SoundList()
         res.sounds.addAll( sounds.filter{ sound -> tags.any{tag -> sound.hasTag(tag)} } )

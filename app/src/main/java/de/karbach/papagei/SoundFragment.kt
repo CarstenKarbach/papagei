@@ -22,9 +22,6 @@ import androidx.core.net.toUri
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import de.karbach.papagei.model.Sound
-import de.karbach.papagei.utils.getCurrentTags
-import de.karbach.papagei.utils.initTagAddButton
-import de.karbach.papagei.utils.resetTagsContainer
 import java.io.File
 
 
@@ -262,7 +259,6 @@ class SoundFragment: Fragment() {
         }
 
         loadDataIntoView(result)
-        resetTagsContainer(result, sound)
 
         val saveButton = result.findViewById<Button>(R.id.detail_save)
         if(sound != null){
@@ -320,7 +316,6 @@ class SoundFragment: Fragment() {
 
                 msg = getString(R.string.sound_msg)+descStr+getString(R.string.saved_success)
             }
-            sound?.tags = getCurrentTags(true)
             val iconView = result.findViewById<TextView>(R.id.icon_display)
             var icon = iconView.text.toString()
             if(icon == "" || icon == null){
@@ -370,7 +365,6 @@ class SoundFragment: Fragment() {
             }
         }
 
-        initTagAddButton(result, inflater)
         configureMediaPlayer(result)
 
         activity?.let {

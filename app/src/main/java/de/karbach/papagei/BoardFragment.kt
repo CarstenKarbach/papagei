@@ -9,8 +9,6 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import de.karbach.papagei.model.Board
 import de.karbach.papagei.model.SoundList
-import de.karbach.papagei.utils.initTagAddButton
-import de.karbach.papagei.utils.resetTagsContainer
 import kotlinx.android.synthetic.main.board_entry.view.*
 
 class BoardFragment: Fragment() {
@@ -28,28 +26,8 @@ class BoardFragment: Fragment() {
         return null
     }
 
-    public fun getCurrentTags(onlyChecked: Boolean) : ArrayList<String>{
-        val result = ArrayList<String>()
-        view?.let{
-            val tags_container = it.findViewById<LinearLayout>(R.id.tags_container)
-            for(child in tags_container.children){
-                val checkbox = child as CheckBox
-                if(!onlyChecked || checkbox.isChecked){
-                    val tagText = checkbox.text.toString()
-                    if(! result.contains(tagText)){
-                        result.add(tagText)
-                    }
-                }
-            }
-        }
-        return result
-    }
-
     fun loadData(){
         val board = getBoard()
-        view?.let {
-            resetTagsContainer(view, board, board)
-        }
         if(board == null){
             return
         }
@@ -98,8 +76,6 @@ class BoardFragment: Fragment() {
                     msg = getString(R.string.changes_saved)
                     board.name = name
                 }
-                board.visible_tags.clear()
-                board.visible_tags.addAll(getCurrentTags(true))
                 board.active = active.isChecked
                 if(board.active){
                     bm.activateBoard(board)
@@ -112,8 +88,6 @@ class BoardFragment: Fragment() {
         cancel.setOnClickListener {
             activity?.finish()
         }
-
-        initTagAddButton(result, inflater)
 
         return result
     }
