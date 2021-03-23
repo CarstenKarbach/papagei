@@ -10,6 +10,7 @@ import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -508,7 +509,21 @@ class SoundFragment: Fragment() {
         }
     }
 
+    /**
+     * Import sound
+     */
+    fun loadFromImportArgument(){
+        val importURI = arguments?.getParcelable<Uri>(SoundActivity.SOUND_IMPORT_URI)
+        importURI?.let {
+            arguments?.remove(SoundActivity.SOUND_IMPORT_URI)
+            origuri = it
+            audioRecord = false
+            storeAudioFileFromOrigUri()
+        }
+    }
+
     fun loadDataIntoView(rootView: View?){
+        loadFromImportArgument()
         if(rootView != null){
             var showOrigUri = if(origuri!=null) origuri.toString() else sound?.origResourceURI
             val fileView = rootView.findViewById<TextView>(R.id.file_uri_display)

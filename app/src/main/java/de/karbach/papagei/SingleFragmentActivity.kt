@@ -12,6 +12,12 @@ abstract class SingleFragmentActivity: AppCompatActivity() {
      */
     abstract fun createFragment(): Fragment;
 
+    fun getFragmentIfExists(): Fragment?{
+        val fm: FragmentManager = this.supportFragmentManager;
+        val f:Fragment? = fm.findFragmentById(R.id.fragment_container)
+        return f
+    }
+
     /**
      *
      * @return true, if activity should create the up button. False if this is not required.
