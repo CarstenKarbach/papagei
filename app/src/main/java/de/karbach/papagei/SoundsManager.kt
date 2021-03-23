@@ -88,6 +88,7 @@ class SoundsManager(val context: Context) {
     fun getTestSounds(subfolder: String = def_sound_folder):SoundList{
         val assetManager = context.assets
         val sounds = assetManager.list(subfolder )
+        sounds?.sort()
         val soundList = SoundList()
         if(sounds == null){
             return soundList

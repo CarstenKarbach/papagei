@@ -53,7 +53,16 @@ class SoundListFragment: ListFragment() {
         COLOR_ACTIVE = ContextCompat.getColor(activity as Context, R.color.colorActive)
     }
 
+    public fun isUsedAsDefaultSoundSelector():Boolean{
+        return arguments?.getBoolean(SoundListActivity.DEFAULT_SOUND_SELECT, false) == true
+    }
+
     public fun getCurrentSoundList():SoundList{
+        if(isUsedAsDefaultSoundSelector()){
+            activity?.let {
+                return SoundsManager(it).getTestSounds()
+            }
+        }
         return SoundsManager.getCurrentList(activity as Context)
     }
 
@@ -67,7 +76,9 @@ class SoundListFragment: ListFragment() {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        activity?.menuInflater?.inflate(R.menu.sound_context_menu, menu)
+        if(! isUsedAsDefaultSoundSelector()) {
+            activity?.menuInflater?.inflate(R.menu.sound_context_menu, menu)
+        }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -159,7 +170,14 @@ class SoundListFragment: ListFragment() {
         updateDisplayedItems()
         registerForContextMenu(listView)
 
-        titleToActiveBoardName()
+        if(! isUsedAsDefaultSoundSelector()) {
+            titleToActiveBoardName()
+        }
+        else{
+            activity?.let{
+                it.title = getString(R.string.select_sound)
+            }
+        }
     }
 
     override fun onPause() {
@@ -257,7 +275,8 @@ class SoundListFragment: ListFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.soundlistmenu, menu)
+        val menu_id = if(isUsedAsDefaultSoundSelector()) R.menu.soundselectmenu else R.menu.soundlistmenu
+        inflater?.inflate(menu_id, menu)
 
         val searchItem = menu?.findItem(R.id.menu_item_search)
         val searchView: SearchView? = searchItem?.actionView as SearchView

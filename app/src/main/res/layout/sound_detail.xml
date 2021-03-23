@@ -104,13 +104,13 @@
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="20"
+                        android:layout_weight="15"
                         android:layout_height="wrap_content"
                         android:text="@string/mp3"
                         android:layout_gravity="center_vertical"/>
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="50"
+                        android:layout_weight="40"
                         android:layout_height="wrap_content"
                         android:text="@string/please_select"
                         android:id="@+id/file_uri_display"
@@ -128,6 +128,13 @@
                         android:src="@android:drawable/ic_btn_speak_now"
                         android:tint="@color/colorRecordInactive"
                         android:id="@+id/record_button"/>
+                    <ImageButton
+                        android:layout_width="0dp"
+                        android:layout_weight="15"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_menu_more"
+                        android:tint="@color/black"
+                        android:id="@+id/default_select_button"/>
                 </LinearLayout>
 
                 <LinearLayout

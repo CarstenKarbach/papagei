@@ -10,10 +10,15 @@ import androidx.fragment.app.Fragment
 class SoundListActivity: SingleFragmentActivity() {
     companion object {
         val SEARCH_REQUEST = "SoundListActivity.SEARCH_REQUEST"
+        val DEFAULT_SOUND_SELECT = "SoundListActivity.DEFAULT_SOUND_SELECT"
+        val SOUND_SELECT_RESULT = "SoundListActivity.SOUND_SELECT_RESULT"
     }
 
     override fun createFragment(): Fragment {
-        return SoundListFragment()
+        val res = SoundListFragment()
+        res.arguments = Bundle()
+        res.arguments?.putBoolean(DEFAULT_SOUND_SELECT, intent.getBooleanExtra(DEFAULT_SOUND_SELECT, false))
+        return res
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

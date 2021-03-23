@@ -141,7 +141,17 @@ class SoundFragment: Fragment() {
             origuri = data?.getData()
             audioRecord = true
         }
-        if(requestCode == FILE_SELECT_CODE || requestCode == RECORD_AUDIO_CODE) {
+        if(requestCode == DEFSOUND_SELECT_REQUEST && resultCode == RESULT_OK){
+            activity?.let {
+                val selectedID = data?.getIntExtra(SoundListActivity.SOUND_SELECT_RESULT, -1)
+                val selectedSound = SoundsManager(it).getTestSounds().getById(selectedID)
+                selectedSound?.let {
+                    origuri = Uri.parse(selectedSound.actualResourceURI)
+                    audioRecord = false
+                }
+            }
+        }
+        if( arrayOf(FILE_SELECT_CODE, RECORD_AUDIO_CODE, DEFSOUND_SELECT_REQUEST).contains(requestCode) ) {
             storeAudioFileFromOrigUri()
         }
         if(requestCode == ICON_SELECT_REQUEST){
@@ -329,6 +339,11 @@ class SoundFragment: Fragment() {
         val cancelButton = result.findViewById<Button>(R.id.detail_cancel)
         cancelButton.setOnClickListener{
             activity?.finish()
+        }
+
+        val defaultSelectButton = result.findViewById<ImageButton>(R.id.default_select_button)
+        defaultSelectButton.setOnClickListener{
+            showDefSoundSelectList()
         }
 
         val recordButton = result.findViewById<ImageButton>(R.id.record_button)
@@ -570,5 +585,13 @@ class SoundFragment: Fragment() {
         intent.putExtra(IconSelectionActivity.EXTRA_PRESELECTED, preselected)
         intent.putExtra(IconSelectionActivity.EXTRA_COLOR, iconColor)
         startActivityForResult(intent, ICON_SELECT_REQUEST)
+    }
+
+    val DEFSOUND_SELECT_REQUEST = 11554
+
+    fun showDefSoundSelectList(){
+        val intent = Intent(context, SoundListActivity::class.java)
+        intent.putExtra(SoundListActivity.DEFAULT_SOUND_SELECT, true)
+        startActivityForResult(intent, DEFSOUND_SELECT_REQUEST)
     }
 }

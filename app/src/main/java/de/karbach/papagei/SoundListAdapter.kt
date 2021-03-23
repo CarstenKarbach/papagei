@@ -26,9 +26,20 @@ class SoundListAdapter(soundlist: List<Sound>, val activity: Activity, val fragm
         }
         realView.findViewById<ImageView>(R.id.edit_button).apply{
             setOnClickListener{
-                val i = Intent(activity,SoundActivity::class.java)
-                i.putExtra(SoundActivity.EXTRA_SOUND_PARAM, item.id)
-                activity.startActivity(i)
+                if(fragment.isUsedAsDefaultSoundSelector()){
+                    val resData = Intent()
+                    resData.putExtra(SoundListActivity.SOUND_SELECT_RESULT, item.id)
+                    activity.setResult(Activity.RESULT_OK, resData)
+                    activity.finish()
+                }
+                else {
+                    val i = Intent(activity, SoundActivity::class.java)
+                    i.putExtra(SoundActivity.EXTRA_SOUND_PARAM, item.id)
+                    activity.startActivity(i)
+                }
+            }
+            if(fragment.isUsedAsDefaultSoundSelector()){
+                setImageResource(R.drawable.ic_hand_pointer_solid)
             }
         }
         realView.findViewById<TextView>(R.id.description).apply{ text=item.description }
