@@ -65,8 +65,11 @@ class SoundFragment: Fragment() {
         }
         recorder.release()
 
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        try {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
+        catch(e: Exception){}
     }
 
     private fun showFileChooser() {
@@ -442,8 +445,10 @@ class SoundFragment: Fragment() {
             }
             val currentUri = getSelectedSoundUri()
             if(currentUri != null){
-                mediaPlayer.stop()
-                mediaPlayer.reset()
+                try {
+                    mediaPlayer.stop()
+                    mediaPlayer.reset()
+                }catch(e: Exception){}
                 mediaPlayer.setDataSource(activity as Context, currentUri)
                 mediaPlayer.prepare()
 
@@ -459,7 +464,9 @@ class SoundFragment: Fragment() {
         }
 
         stop.setOnClickListener{
-            mediaPlayer.stop()
+            try {
+                mediaPlayer.stop()
+            }catch(e: Exception){}
             playingUri=null
             configureMediaPlayer(view)
         }

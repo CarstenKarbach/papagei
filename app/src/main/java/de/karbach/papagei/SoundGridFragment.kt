@@ -95,7 +95,10 @@ class SoundGridFragment: Fragment() {
     override fun onPause() {
         super.onPause()
 
-        mediaPlayer.stop()
+        try {
+            mediaPlayer.stop()
+        }
+        catch(e: Exception){}
         storePlayingSound(null)
         itemTouchHelper?.attachToRecyclerView(null)
     }
@@ -103,8 +106,11 @@ class SoundGridFragment: Fragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        try {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
+        catch(e: Exception){}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -294,8 +300,10 @@ class SoundGridFragment: Fragment() {
     var currentThread = 0;
 
     fun playSound(sound:Sound) {
-        mediaPlayer.stop()
-        mediaPlayer.reset()
+        try {
+            mediaPlayer.stop()
+            mediaPlayer.reset()
+        }catch(e: Exception){}
         mediaPlayer.setDataSource(activity as Context, Uri.parse(sound.actualResourceURI))
         mediaPlayer.prepare()
 
